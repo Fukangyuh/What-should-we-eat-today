@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#214e42">
+  <meta name="description" content="转动美食转盘，从20个国家的100道经典美食中，发现今天想吃的那一道。">
+  <title>食遇 · 今天吃什么</title>
+  <style>
+    :root{--paper:#f7f6f0;--white:#fffefa;--ink:#253e35;--green:#214e42;--muted:#7c847a;--line:#e6e7dd;--orange:#d87955;--lime:#dce8b8;--shadow:0 16px 50px #314a3510}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;font-size:14px;line-height:1.6}button,input,select{font:inherit}button,a,input,select{-webkit-tap-highlight-color:transparent}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.5}button,a,select,input{outline-offset:5px}button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--orange)}a{color:inherit;text-decoration:none}button{color:inherit}svg{vertical-align:middle}.icon{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}[hidden]{display:none!important}
+    .shell{max-width:1220px;margin:auto;padding:0 40px}.header{height:88px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:11px}.brand-icon{display:grid;place-items:center;width:38px;height:38px;background:var(--green);color:#fff;border-radius:12px;transform:rotate(-6deg)}.brand-icon svg{width:24px;height:24px}.brand-name{font-size:23px;font-weight:800;letter-spacing:2px}.brand-en{font-family:Georgia,serif;font-size:11px;letter-spacing:2px;margin-left:7px;color:var(--muted)}nav{display:flex;gap:32px;align-items:center}nav a{color:var(--muted);font-size:13px;padding:10px 0}nav a:hover,nav a.active{color:var(--green)}nav a.active{position:relative}nav a.active:after{content:"";position:absolute;bottom:3px;left:40%;width:16px;height:3px;background:var(--green);border-radius:4px}.header-note{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}.status-dot{height:6px;width:6px;background:#6e8a4d;border-radius:50%}
+    .intro{padding:38px 0 28px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px}.eyebrow{font:11px Georgia,serif;letter-spacing:3px;color:var(--orange);margin-bottom:11px}.intro h1{font-size:36px;line-height:1.3;letter-spacing:1px;margin:0;font-weight:800}.intro h1 span{position:relative;white-space:nowrap}.intro h1 span:after{content:"";position:absolute;bottom:-3px;left:1px;width:100%;height:6px;border-radius:50%;background:#d9e3b7;z-index:-1}.intro p{color:var(--muted);font-size:13px;margin:13px 0 0}.intro-stamp{display:flex;align-items:center;gap:14px;padding-bottom:2px}.stamp-icon{width:46px;height:46px;border:1px solid #d5dccc;border-radius:50%;display:grid;place-items:center;transform:rotate(-12deg)}.intro-stamp strong{font:24px Georgia,serif}.intro-stamp small{display:block;color:var(--muted);font-size:11px;letter-spacing:1px}.small-divider{height:30px;width:1px;background:var(--line);margin:0 3px}
+    .play-layout{display:grid;grid-template-columns:minmax(0,1.46fr) minmax(310px,1fr);gap:23px;align-items:stretch}.wheel-card{background:var(--white);border:1px solid var(--line);border-radius:24px;padding:24px 26px 22px;box-shadow:var(--shadow);position:relative;overflow:hidden}.card-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.section-label{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}.section-label .icon{width:17px;height:17px}.text-button{border:0;background:none;color:var(--muted);font-size:12px;padding:5px 0;display:inline-flex;gap:5px;align-items:center}.text-button:hover{color:var(--green)}.text-button .icon{width:14px;height:14px}.wheel-caption{text-align:center;color:var(--muted);font-size:11px;letter-spacing:.3px;margin:15px 0 9px}.wheel-wrap{width:min(100%,414px);aspect-ratio:1;margin:auto;position:relative;padding:13px;isolation:isolate}.wheel-wrap:before{content:"";position:absolute;inset:0;border:1px solid #e4e6d7;border-radius:50%;background:repeating-conic-gradient(from 0deg,#adba9b 0deg 0.6deg,transparent .6deg 6deg);mask:radial-gradient(transparent 68%,#000 68%,#000 69%,transparent 69%);-webkit-mask:radial-gradient(transparent 68%,#000 68%,#000 69%,transparent 69%)}.wheel-body{width:100%;height:100%;border:7px solid #f1f0e5;box-shadow:0 7px 23px #293d2920;border-radius:50%;position:relative;background:#edf0df;overflow:hidden}#wheel{display:block;width:100%;height:100%;will-change:transform;border-radius:50%}.pointer{position:absolute;top:0;left:50%;width:29px;height:38px;transform:translateX(-50%);filter:drop-shadow(0 3px 2px #5c44282a);z-index:4}.wheel-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:99px;height:99px;border-radius:50%;background:var(--white);box-shadow:0 0 0 6px #ffffff55,0 4px 16px #34442f20;border:1px solid #e6e5d7;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;z-index:3}.wheel-center .icon{width:29px;height:29px}.wheel-center span{font-weight:800;letter-spacing:4px;font-size:15px;margin-left:4px}.wheel-center:hover{background:#f4f4e9}.wheel-center:disabled{opacity:1}.wheel-empty{position:absolute;inset:15%;display:grid;place-items:center;text-align:center;padding-bottom:115px;color:var(--muted);pointer-events:none}.wheel-controls{max-width:365px;margin:17px auto 0;text-align:center}.spin-button{background:var(--green);color:white;border:1px solid var(--green);padding:14px 24px;border-radius:12px;width:100%;font-size:15px;letter-spacing:1px;font-weight:600;display:flex;justify-content:center;align-items:center;gap:10px;box-shadow:0 5px 0 #e8ebdf;transition:background .2s,transform .2s}.spin-button:hover:not(:disabled){background:#306450;transform:translateY(-1px)}.spin-button .icon{width:20px;height:20px}.spin-footnote{font-size:11px;color:#909486;margin:11px 0 0}.candidate-details{font-size:11px;color:var(--muted);margin-top:12px}.candidate-details summary{cursor:pointer;width:max-content;margin:auto}.candidate-details p{margin:9px 0 0;line-height:1.9;color:#637467;text-align:center}
+    .side-column{display:flex;flex-direction:column;gap:18px}.preferences{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:20px 23px}.panel-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.panel-heading h2{font-size:13px;margin:0;font-weight:700}.panel-heading small{font-size:11px;color:var(--muted)}.filter-fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}.select-wrap{position:relative}.select-wrap:after{content:"⌄";position:absolute;right:12px;top:7px;pointer-events:none;color:#7b8975}.field select{appearance:none;width:100%;min-height:40px;padding:8px 29px 8px 11px;border:1px solid #e3e6da;background:#fafbf6;color:var(--ink);border-radius:8px;font-size:12px}.preference-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:15px;gap:12px}.check-label{display:flex;gap:7px;align-items:center;font-size:11px;color:#778271;cursor:pointer}.check-label input{width:14px;height:14px;accent-color:var(--green);margin:0}.reset-button{font-size:11px}
+    .result-card{flex:1;background:#eaf0e2;border:1px solid #dee6d5;border-radius:20px;padding:22px 24px 20px;position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden;min-height:336px}.result-card:before{content:"";width:185px;height:185px;border:1px solid #cfdbc8;border-radius:50%;position:absolute;right:-110px;top:30px;box-shadow:0 0 0 17px #dbe4d047,0 0 0 36px #e0e8d64a;pointer-events:none}.result-eyebrow{font-size:10px;letter-spacing:2.5px;color:#738164;display:flex;align-items:center;gap:7px;z-index:1}.result-eyebrow:before,.result-eyebrow:after{content:"";width:18px;height:1px;background:#aebca0}.plate{width:135px;height:125px;display:flex;align-items:center;justify-content:center;position:relative;margin:14px auto 4px}.plate:before{content:"";width:113px;height:113px;position:absolute;background:#fbfcf4;border:1px solid #d5dfc8;box-shadow:0 6px 12px #5a714114, inset 0 0 0 9px #f6f8eb,inset 0 0 0 10px #e6ead8;border-radius:50%;transform:rotate(-12deg)}.plate:after{content:"✧";position:absolute;right:-1px;top:9px;color:#aa8b45;font-size:24px}.plate-emoji{font-size:58px;line-height:1;z-index:1;filter:drop-shadow(0 5px 3px #54613d19);transform:rotate(-10deg)}.plate-art{width:84px;height:84px;z-index:1;transform:rotate(-10deg)}.result-country{font-size:11px;color:#6f815d;margin:3px 0 7px}.result-country .country-code{font-family:Georgia,serif;border:1px solid #bdcbaa;border-radius:4px;font-size:10px;padding:1px 4px;margin-right:5px}.result-card h2{font-size:24px;line-height:1.4;margin:0;font-weight:750;letter-spacing:1px;z-index:1}.result-description{font-size:12px;color:#7b866d;line-height:1.9;max-width:270px;margin:10px 0 15px;min-height:44px;z-index:1}.result-tags{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:0 0 15px}.tag{font-size:10px;padding:3px 9px;background:#f8faef99;border:1px solid #d7e0ca;border-radius:20px;color:#6c7c5c}.decide-button{padding:9px 22px;border:1px solid #a5b692;border-radius:9px;background:transparent;font-size:12px;display:flex;align-items:center;justify-content:center;gap:7px;margin-top:auto;z-index:1}.decide-button:hover{background:#f5f7ed}.decide-button.is-decided{background:var(--green);color:white;border-color:var(--green)}.result-idle-note{margin-top:auto;font:italic 12px Georgia,serif;color:#8a9879}.result-card.reveal .plate{animation:bounce .5s ease}.result-card.reveal h2{animation:appear .4s ease}.confetti{position:absolute;top:25%;width:6px;height:11px;border-radius:2px;pointer-events:none;animation:confetti 1.1s ease-out forwards;z-index:5}
+    .history{margin:23px 0 34px;display:flex;align-items:flex-start;gap:16px;padding:0 5px;min-height:38px}.history-title{font-size:11px;color:var(--muted);display:flex;gap:7px;align-items:center;white-space:nowrap;padding-top:6px}.history-title .icon{width:14px;height:14px}.history-list{display:flex;flex-wrap:wrap;gap:7px;flex:1}.history-chip{background:#eeefe6;border:1px solid #e1e4d8;padding:5px 10px;border-radius:20px;font-size:11px;display:flex;gap:5px;align-items:center}.history-chip:hover{border-color:#9fae8e}.empty-history{font-size:11px;color:#979c8d;padding-top:6px}.history-clear{font-size:11px;white-space:nowrap}.atlas{border-top:1px solid var(--line);padding:29px 0 36px;scroll-margin-top:25px}.atlas-heading{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px}.atlas-title{display:flex;align-items:center;gap:10px}.atlas-title h2{margin:0;font-size:20px;letter-spacing:1px}.count-pill{font:11px Georgia,serif;background:#e8ecdc;padding:2px 8px;border-radius:20px;color:#768763}.atlas-subtitle{font-size:11px;color:var(--muted);margin-top:5px}.search-box{position:relative;width:260px}.search-box .icon{position:absolute;left:12px;top:11px;width:16px;height:16px;color:#929b88}.search-box input{width:100%;border:1px solid #dfe3d6;background:var(--white);padding:10px 12px 10px 36px;border-radius:9px;font-size:11px;color:var(--ink)}.food-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.food-card{background:var(--white);border:1px solid var(--line);border-radius:13px;padding:16px;display:flex;gap:12px;align-items:center;min-height:87px;position:relative}.food-card:hover{border-color:#c3cdb5;box-shadow:0 5px 16px #42553408}.food-emoji{font-size:27px;width:41px;min-width:41px;height:47px;border-radius:10px;background:var(--tile,#f5f0df);display:grid;place-items:center}.food-card h3{font-size:12px;margin:0 0 4px;font-weight:650}.food-card p{font-size:10px;color:var(--muted);margin:0}.food-card .country-mini{font:9px Georgia,serif;margin-left:4px;color:#9aa18d}.food-card .card-type{font-size:9px;color:#9caa8d;margin-left:5px}.atlas-empty{padding:35px;color:var(--muted);text-align:center;border:1px dashed #d5dbcb;border-radius:14px}.more-button{display:flex;align-items:center;justify-content:center;gap:7px;border:1px solid #d8decd;background:transparent;border-radius:9px;padding:9px 22px;font-size:11px;margin:20px auto 0}.more-button:hover{background:#eef0e5}.more-button .icon{width:14px;height:14px}.footer{border-top:1px solid var(--line);padding:21px 0 28px;display:flex;justify-content:space-between;gap:20px;align-items:flex-start;font-size:10px;color:#969e8e}.footer-brand{font-family:Georgia,serif;letter-spacing:1px}.footer details{text-align:right;max-width:510px}.footer summary{cursor:pointer;list-style:none}.footer summary::-webkit-details-marker{display:none}.footer details p{line-height:1.9}.footer details a{border-bottom:1px solid #c5cfba;margin-left:9px}.toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,20px);background:var(--green);color:white;box-shadow:0 5px 30px #1f44342b;padding:12px 22px;border-radius:12px;font-size:12px;opacity:0;pointer-events:none;transition:.25s;z-index:20;max-width:90vw;text-align:center}.toast.visible{transform:translate(-50%,0);opacity:1}.loading-label .icon{animation:rotate 1.2s linear infinite}.noscript{padding:20px;border:1px solid var(--orange);border-radius:12px;margin:20px 0}
+    @keyframes rotate{to{transform:rotate(360deg)}}@keyframes bounce{0%,100%{transform:translateY(0)}45%{transform:translateY(-9px) rotate(5deg)}}@keyframes appear{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}@keyframes confetti{from{opacity:1;transform:translate(0,0) rotate(0)}to{opacity:0;transform:translate(var(--x),var(--y)) rotate(var(--r))}}
+    @media(min-width:1400px){.shell{max-width:1300px}.wheel-wrap{width:435px}.wheel-card{padding-top:25px}.result-card{min-height:345px}.plate{margin-top:23px}}
+    @media(max-width:980px){.shell{padding:0 25px}.play-layout{grid-template-columns:minmax(0,1.2fr) minmax(285px,1fr);gap:16px}.wheel-card{padding:21px 16px}.preferences{padding:18px}.result-card{padding:20px 17px}.food-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.brand-en{display:none}.intro-stamp{gap:10px}.intro h1{font-size:31px}.header-note{display:none}.plate{margin-top:16px}}
+    @media(max-width:740px){.shell{padding:0 18px}.header{height:72px}nav{gap:19px}nav a{font-size:12px}.brand-name{font-size:21px}.brand-icon{width:33px;height:33px}.intro{padding:28px 0 23px}.intro h1{font-size:29px}.intro p{font-size:12px}.intro-stamp{display:none}.play-layout{display:flex;flex-direction:column;gap:16px}.wheel-card{padding:19px 19px 21px}.wheel-wrap{width:min(100%,400px)}.wheel-caption{margin-top:13px}.side-column{display:contents}.preferences{order:-1;padding:17px 19px}.preferences .panel-heading{margin-bottom:12px}.filter-fields{gap:15px}.preference-bottom{margin-top:12px}.result-card{min-height:335px;padding:21px}.plate{margin-top:15px}.history{margin:21px 0 26px;gap:10px;flex-wrap:wrap}.history-list{min-width:65%}.history-clear{margin-left:auto}.atlas{padding-top:24px}.atlas-heading{align-items:flex-start;flex-direction:column;gap:14px}.search-box{width:100%}.food-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.food-card{padding:12px 10px;gap:8px}.food-emoji{width:34px;min-width:34px;height:40px;font-size:24px}.food-card h3{font-size:11px}.food-card .country-mini{display:none}.footer{flex-direction:column;gap:8px}.footer details{text-align:left}.result-card h2{font-size:25px}.atlas-title h2{font-size:19px}}
+    @media(max-width:360px){.shell{padding:0 12px}.intro h1{font-size:26px}.brand{gap:7px}nav{gap:13px}.food-grid{grid-template-columns:1fr}.wheel-card{padding-left:12px;padding-right:12px}.card-top{gap:6px}.section-label{font-size:12px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important}.spin-button{transition:none}}
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <symbol id="i-utensils" viewBox="0 0 24 24"><path d="m5 3 16 18M3 5l4 4c1.5 1.5 4-1 2.5-2.5l-4-4M7 21l5-6M20 3c-4 1-7 5-5 7l2 2 4-8Z"/></symbol>
+    <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M3 6h3c5 0 7 12 12 12h3M18 15l3 3-3 3M3 18h3c2 0 4-3 5-6M14 8c1-1 2-2 4-2h3M18 3l3 3-3 3"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18M5 7h14M5 17h14"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.5 7M3 5v6h6M12 7v5l3 2"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 5 5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 2 8M4 4v6h6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  </defs></svg>
+  <div class="shell">
+    <header class="header">
+      <a class="brand" href="#roulette" aria-label="食遇首页"><span class="brand-icon"><svg class="icon"><use href="#i-utensils"/></svg></span><span class="brand-name">食遇<span class="brand-en">SHIYU</span></span></a>
+      <nav aria-label="页面导航"><a class="active" href="#roulette" id="nav-wheel">转盘探索</a><a href="#atlas" id="nav-atlas">美食图鉴 <span aria-hidden="true">↗</span></a></nav>
+      <span class="header-note"><span class="status-dot"></span> 好好吃饭，是件正经事</span>
+    </header>
+    <main>
+      <section class="intro" id="roulette" aria-labelledby="page-title">
+        <div><div class="eyebrow">A LITTLE SPIN, A NEW FLAVOR.</div><h1 id="page-title">今天，<span>吃点什么？</span></h1><p>把选择交给转盘，把好心情留给下一餐。</p></div>
+        <div class="intro-stamp" aria-label="100道美食，20个国家"><span class="stamp-icon"><svg class="icon"><use href="#i-globe"/></svg></span><div><strong>100</strong><small>道经典美食</small></div><span class="small-divider"></span><div><strong>20</strong><small>个国家风味</small></div></div>
+      </section>
+      <noscript><p class="noscript">请在浏览器中启用 JavaScript，以使用转盘、筛选和美食图鉴。</p></noscript>
+      <div class="play-layout">
+        <section class="wheel-card" aria-label="美食随机转盘">
+          <div class="card-top"><span class="section-label"><svg class="icon"><use href="#i-globe"/></svg> 味蕾的下一站</span><button class="text-button" id="shuffle"><svg class="icon"><use href="#i-shuffle"/></svg> 换一桌候选</button></div>
+          <p class="wheel-caption" id="wheel-caption">从 100 道美食中，随机上桌 12 道</p>
+          <div class="wheel-wrap">
+            <svg class="pointer" viewBox="0 0 30 40" aria-hidden="true"><path d="M3 6Q15-1 27 6L18 35Q15 40 12 35Z" fill="#d87955"/><circle cx="15" cy="11" r="3" fill="#f8dbc5"/></svg>
+            <div class="wheel-body"><canvas id="wheel" width="1000" height="1000" role="img" aria-label="当前候选美食转盘，文字名单见下方详情">当前候选美食请查看下方文字名单。</canvas></div>
+            <button class="wheel-center" id="center-spin" aria-label="开始转动美食转盘"><svg class="icon"><use href="#i-utensils"/></svg><span>开饭</span></button>
+            <div class="wheel-empty" id="wheel-empty" hidden>这里暂时没有美食<br>试试其他筛选吧</div>
+          </div>
+          <div class="wheel-controls"><button class="spin-button" id="spin"><svg class="icon"><use href="#i-shuffle"/></svg><span>转一转，决定这一餐</span><svg class="icon"><use href="#i-arrow"/></svg></button><p class="spin-footnote" id="spin-note">不赶时间，给美味一点出场仪式。</p></div>
+          <details class="candidate-details"><summary>查看本轮上桌名单</summary><p id="candidate-list"></p></details>
+        </section>
+        <div class="side-column">
+          <section class="preferences" aria-labelledby="preference-title">
+            <div class="panel-heading"><h2 id="preference-title">挑一点偏好</h2><small>让随机，更合你意</small></div>
+            <div class="filter-fields"><div class="field"><label for="country">想去哪里吃</label><div class="select-wrap"><select id="country"><option value="all">不限国家 · 全世界</option></select></div></div><div class="field"><label for="category">这次想吃点</label><div class="select-wrap"><select id="category"><option value="all">全部美食</option><option value="正餐">正餐 · 好好吃饱</option><option value="小吃">小吃 · 解解嘴馋</option><option value="甜点">甜点 · 甜一点吧</option></select></div></div></div>
+            <div class="preference-bottom"><label class="check-label"><input type="checkbox" id="no-repeat" checked>连续两次不重复</label><button class="text-button reset-button" id="reset"><svg class="icon"><use href="#i-reset"/></svg> 重置偏好</button></div>
+          </section>
+          <section class="result-card" id="result-card" aria-labelledby="result-title" aria-busy="false">
+            <span class="result-eyebrow" id="result-eyebrow">YOUR NEXT DELICIOUS STOP</span>
+            <div class="plate" aria-hidden="true"><svg class="plate-art" id="idle-art" viewBox="0 0 100 100"><path d="M19 64Q50 85 81 64L75 74Q50 92 25 74Z" fill="#d9b66c"/><path d="M17 57Q50 75 83 57L77 67Q50 82 23 67Z" fill="#edca80"/><ellipse cx="50" cy="55" rx="33" ry="16" fill="#e6af63"/><path d="M23 52q7-22 16-4t14-6 17 6M24 60q10-26 19-8t12-5 20 6M32 59q2-23 13-12t16-3" stroke="#fbde99" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M32 43q-8-8 3-13 6 9-3 13M65 49q-3-11 8-12 0 11-8 12M49 62q-6-8 3-10 4 7-3 10" fill="#668956"/><circle cx="54" cy="42" r="5" fill="#d58059"/><circle cx="34" cy="56" r="4" fill="#d58059"/><path d="m71 22 11 18M77 18l11 18" stroke="#957953" stroke-width="3" stroke-linecap="round"/></svg><span class="plate-emoji" id="result-emoji" hidden></span></div>
+            <div class="result-country" id="result-country">一点未知，一点期待</div><h2 id="result-title">让世界，为你上菜。</h2><p class="result-description" id="result-description">不妨跳出熟悉的菜单，<br>和一道意想不到的美味相遇。</p><div class="result-tags" id="result-tags" hidden></div><button class="decide-button" id="decide" hidden><svg class="icon"><use href="#i-check"/></svg><span>就吃这道</span></button><span class="result-idle-note" id="idle-note">Good food. Good mood.</span>
+          </section>
+        </div>
+      </div>
+      <section class="history" aria-label="最近抽取记录"><div class="history-title"><svg class="icon"><use href="#i-history"/></svg> 刚刚的食遇</div><div class="history-list" id="history-list"><span class="empty-history">转动第一圈，留下一点美味的足迹。</span></div><button class="text-button history-clear" id="clear-history" hidden>清空记录</button></section>
+      <section class="atlas" id="atlas" aria-labelledby="atlas-title">
+        <div class="atlas-heading"><div><div class="atlas-title"><h2 id="atlas-title">世界美食图鉴</h2><span class="count-pill" id="atlas-count">100 DISHES</span></div><div class="atlas-subtitle" id="atlas-subtitle">熟悉的家常味，也有远方的新鲜感。</div></div><div class="search-box"><svg class="icon"><use href="#i-search"/></svg><label for="search" class="sr-only">搜索菜名或国家，仅筛选图鉴</label><input type="search" id="search" placeholder="搜索菜名 / 国家，仅筛选图鉴" autocomplete="off"></div></div>
+        <div class="food-grid" id="food-grid"></div><p class="atlas-empty" id="atlas-empty" hidden>没有找到这道美食，换个关键词或重置上方偏好试试。</p><button class="more-button" id="more">展开全部美食 <svg class="icon"><use href="#i-down"/></svg></button>
+      </section>
+    </main>
+    <footer class="footer"><span class="footer-brand">SHIYU · MADE FOR YOUR NEXT MEAL</span><details><summary>每餐一点新鲜感。 · 关于美食图鉴 ⓘ</summary><p>收录各国传统及代表性菜肴，国家标签表示常见风味关联；部分菜肴由多地共享。描述为简要风味介绍，不表示固定配方或饮食限制。<br>部分资料参考：<a href="https://www.japan.travel/en/gastronomy/" target="_blank" rel="noopener noreferrer">日本国家旅游局</a><a href="https://invest.bangkok.go.th/food/" target="_blank" rel="noopener noreferrer">曼谷美食介绍</a><a href="https://www.doae.go.th/en/food/" target="_blank" rel="noopener noreferrer">泰国农业推广局</a>。<br>抽取记录仅保存在当前浏览器；页面无需联网即可使用。</p></details></footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div><div class="sr-only" id="announcement" aria-live="polite" aria-atomic="true"></div>
+  <script>
+    'use strict';
+    // 每个国家五道，共 100 道。每项：中文名、常见外文名、图标、类型、风味简介。
+    const CUISINES = [
+      {country:'中国',code:'CN',foods:[
+        ['北京烤鸭','Peking duck','🦆','正餐','酥脆鸭皮裹进薄饼，配葱丝与甜面酱，香气层层展开。'],
+        ['麻婆豆腐','Mapo tofu','🥘','正餐','嫩豆腐与肉末在红油中相遇，花椒麻香，格外下饭。'],
+        ['西安肉夹馍','Roujiamo','🥙','小吃','酥香白吉馍夹入剁碎的卤肉，一口咬下，肉汁丰盈。'],
+        ['广东肠粉','Cheung fun','🍥','小吃','薄薄米皮裹着馅料蒸熟，淋上酱汁，柔滑又鲜香。'],
+        ['兰州牛肉面','Lanzhou beef noodles','🍜','正餐','清汤、牛肉、萝卜与手拉面，一碗热气腾腾的踏实。']
+      ]},
+      {country:'日本',code:'JP',foods:[
+        ['寿司','Sushi','🍣','正餐','醋饭搭配鱼鲜或蔬菜，简单一口，细细品尝食材本味。'],
+        ['天妇罗','Tempura','🍤','正餐','海鲜与蔬菜裹上轻薄面衣，炸出金黄酥脆的口感。'],
+        ['豚骨拉面','Tonkotsu ramen','🍜','正餐','浓郁猪骨汤底配弹韧面条，叉烧与配菜让一碗更丰盛。'],
+        ['大阪烧','Okonomiyaki','🥞','正餐','卷心菜与面糊煎成厚饼，刷上酱汁，满是热闹的街头香气。'],
+        ['鳗鱼饭','Unadon','🍱','正餐','蒲烧鳗鱼铺在热米饭上，甜咸酱汁与油脂香气交融。']
+      ]},
+      {country:'韩国',code:'KR',foods:[
+        ['石锅拌饭','Dolsot bibimbap','🍚','正餐','米饭、时蔬与配料在热石锅里拌匀，锅底焦香是惊喜。'],
+        ['泡菜汤','Kimchi jjigae','🍲','正餐','泡菜与豆腐等食材炖出酸辣汤汁，适合配上一碗白饭。'],
+        ['韩式烤肉','Bulgogi','🥩','正餐','腌好的薄切肉烤出甜咸香气，用生菜包着吃也很满足。'],
+        ['参鸡汤','Samgyetang','🍲','正餐','整鸡与糯米、人参等慢煮，汤香温润，滋味柔和。'],
+        ['辣炒年糕','Tteokbokki','🍢','小吃','软糯年糕裹满甜辣酱汁，是经典的韩式街头小吃。']
+      ]},
+      {country:'泰国',code:'TH',foods:[
+        ['冬阴功汤','Tom yum goong','🍲','正餐','香茅、青柠等香料与鲜虾煮出明亮的酸辣风味。'],
+        ['泰式炒河粉','Pad thai','🍝','正餐','河粉与蛋、豆芽等快炒，罗望子酸香与花生碎相映成趣。'],
+        ['绿咖喱鸡','Green curry','🥘','正餐','绿咖喱与椰奶炖入鸡肉，浓香里带着鲜明的辛辣。'],
+        ['青木瓜沙拉','Som tam','🥗','小吃','青木瓜丝爽脆清新，酸、辣、咸、甜在一盘里碰撞。'],
+        ['芒果糯米饭','Mango sticky rice','🥭','甜点','熟芒果、软糯米饭与椰浆，组合出热带的甜蜜。']
+      ]},
+      {country:'越南',code:'VN',foods:[
+        ['越南牛肉河粉','Pho bo','🍜','正餐','牛肉清汤融入香料，配柔软河粉与新鲜香草。'],
+        ['越南法棍','Banh mi','🥖','小吃','酥脆法棍夹入肉类、腌菜与香草，口感爽利又丰富。'],
+        ['越南鲜春卷','Goi cuon','🌯','小吃','米纸包住虾、米粉与蔬菜，蘸上酱汁，清爽不单调。'],
+        ['顺化牛肉粉','Bun bo Hue','🍜','正餐','带着香茅气息的牛肉汤粉，汤色鲜亮，滋味浓厚。'],
+        ['越南煎饼','Banh xeo','🥞','正餐','金黄米浆薄饼包裹馅料，配生菜香草，外脆里鲜。']
+      ]},
+      {country:'印度',code:'IN',foods:[
+        ['印度黄油鸡','Butter chicken','🍛','正餐','鸡肉浸在番茄与奶油调成的香浓酱汁里，配饼很合适。'],
+        ['印度香饭','Biryani','🍛','正餐','长粒米与香料、肉类分层烹制，米香与香料气息交织。'],
+        ['玛萨拉薄饼','Masala dosa','🥞','正餐','发酵米豆浆煎成脆薄饼，包入香料土豆，搭配蘸酱。'],
+        ['咖喱鹰嘴豆','Chana masala','🥘','正餐','鹰嘴豆吸收番茄与香料的滋味，口感绵密，香气饱满。'],
+        ['印度烤鸡','Tandoori chicken','🍗','正餐','酸奶与香料腌制鸡肉，烤出鲜明的焦香和诱人色泽。']
+      ]},
+      {country:'印度尼西亚',code:'ID',foods:[
+        ['印尼炒饭','Nasi goreng','🍳','正餐','米饭炒入甜酱油等调味，再搭一颗蛋，咸香又满足。'],
+        ['印尼沙爹','Satay','🍢','小吃','小串肉烤出炭香，配上浓郁花生酱，是熟悉的南洋风味。'],
+        ['巴东牛肉','Rendang','🥘','正餐','牛肉与椰奶、香料慢炖收浓，滋味深入每一块肉。'],
+        ['加多加多','Gado-gado','🥗','正餐','蔬菜、豆腐等配料拌入花生酱，丰盛又有层次。'],
+        ['印尼鸡汤','Soto ayam','🍲','正餐','姜黄香料汤底搭配鸡肉与米粉，香气温暖鲜明。']
+      ]},
+      {country:'马来西亚',code:'MY',foods:[
+        ['椰浆饭','Nasi lemak','🍚','正餐','椰香米饭配参巴酱、花生等佐料，一盘吃到丰富滋味。'],
+        ['咖喱叻沙','Curry laksa','🍜','正餐','面条浸在椰奶咖喱汤里，浓郁汤底包裹每一口。'],
+        ['炒粿条','Char kway teow','🍝','正餐','粿条与豆芽等大火快炒，酱香与镬气最是迷人。'],
+        ['罗蒂佳乃','Roti canai','🫓','小吃','层层折叠的煎饼外酥内软，撕开蘸咖喱，越吃越香。'],
+        ['乌达鱼糕','Otak-otak','🐟','小吃','鱼肉与香料制成鱼糕，包叶烤制，香气浓而不腻。']
+      ]},
+      {country:'新加坡',code:'SG',foods:[
+        ['海南鸡饭','Hainanese chicken rice','🍗','正餐','嫩鸡配鸡汤煮出的香饭，再用蘸酱添上各自的层次。'],
+        ['辣椒螃蟹','Chilli crab','🦀','正餐','螃蟹裹入甜辣浓汁，鲜味十足，酱汁蘸馒头也精彩。'],
+        ['肉骨茶','Bak kut teh','🍲','正餐','排骨与胡椒等香料炖汤，汤香浓郁，是暖胃的一餐。'],
+        ['咖椰吐司','Kaya toast','🍞','小吃','烤吐司夹入咖椰酱与黄油，酥香里带着椰香甜意。'],
+        ['福建虾面','Hokkien prawn mee','🍜','正餐','面条吸收虾汤鲜味，搭配海鲜与青柠，咸鲜香浓。']
+      ]},
+      {country:'土耳其',code:'TR',foods:[
+        ['土耳其烤肉','Doner kebab','🥙','正餐','旋转烤肉切成薄片，搭配饼、蔬菜与酱汁，香气扑鼻。'],
+        ['土耳其披饼','Pide','🫓','正餐','船形面饼盛着肉或奶酪馅料，烤得边缘金黄。'],
+        ['土耳其馄饨','Manti','🥟','正餐','小巧面皮包住肉馅，酸奶酱与香料油带来独特层次。'],
+        ['土耳其扁豆汤','Mercimek corbasi','🥣','正餐','红扁豆煮成细滑浓汤，加一点柠檬，朴素又舒服。'],
+        ['巴克拉瓦','Baklava','🍯','甜点','层叠酥皮夹着坚果，浸入甜蜜糖浆，小块也很满足。']
+      ]},
+      {country:'希腊',code:'GR',foods:[
+        ['穆萨卡','Moussaka','🥘','正餐','茄子与肉酱层叠，覆上白酱烤制，口感浓郁柔软。'],
+        ['希腊烤肉串','Souvlaki','🍢','正餐','肉块用香草等腌制后烤香，搭配皮塔饼与蔬菜。'],
+        ['希腊沙拉','Horiatiki','🥗','正餐','番茄、黄瓜、橄榄与菲达奶酪，呈现清新的地中海风味。'],
+        ['菠菜千层派','Spanakopita','🥧','小吃','薄酥皮包住菠菜与奶酪，外层轻脆，内馅鲜咸。'],
+        ['希腊蜜球','Loukoumades','🍩','甜点','小面团炸成金黄圆球，淋蜂蜜糖浆，外脆内软。']
+      ]},
+      {country:'意大利',code:'IT',foods:[
+        ['玛格丽特披萨','Pizza Margherita','🍕','正餐','番茄、马苏里拉与罗勒，简单三味在饼底上碰出经典。'],
+        ['博洛尼亚肉酱面','Tagliatelle al ragu','🍝','正餐','宽面裹上慢炖肉酱，浓厚酱香与面香相得益彰。'],
+        ['意式烩饭','Risotto','🍚','正餐','米粒在高汤中慢慢煮出绵密质地，中心保留恰好的口感。'],
+        ['意式千层面','Lasagne','🥘','正餐','面皮、肉酱与白酱层层叠起，烤出浓郁奶香。'],
+        ['提拉米苏','Tiramisu','🍰','甜点','咖啡浸润的饼干与马斯卡彭奶酪交叠，轻盈又醇香。']
+      ]},
+      {country:'法国',code:'FR',foods:[
+        ['红酒炖牛肉','Boeuf bourguignon','🥘','正餐','牛肉在红酒与蔬菜中慢炖，酱汁醇厚，肉质软嫩。'],
+        ['法式洋葱汤','Soupe a loignon','🧅','正餐','焦糖化洋葱煮成浓汤，覆上面包与奶酪烤至金黄。'],
+        ['普罗旺斯炖菜','Ratatouille','🍅','正餐','茄子、番茄与西葫芦等慢煮，保留南法蔬菜的清香。'],
+        ['洛林咸派','Quiche lorraine','🥧','正餐','酥皮盛着鸡蛋、奶油与培根的馅料，烤出细腻咸香。'],
+        ['法式可丽饼','Crepe','🥞','甜点','轻薄饼皮包裹甜馅，折起一份简单而浪漫的甜味。']
+      ]},
+      {country:'西班牙',code:'ES',foods:[
+        ['西班牙海鲜饭','Paella de marisco','🥘','正餐','米饭吸收高汤与海鲜精华，锅底微焦的米粒别有风味。'],
+        ['西班牙土豆蛋饼','Tortilla espanola','🥔','正餐','土豆与鸡蛋煎成厚饼，朴素食材也有柔软丰厚的滋味。'],
+        ['西班牙冷汤','Gazpacho','🥣','正餐','番茄与蔬菜打成清凉冷汤，酸香爽口，很有夏日气息。'],
+        ['西班牙蒜香虾','Gambas al ajillo','🍤','小吃','虾在橄榄油与蒜片中烹香，配面包蘸汁尤其合适。'],
+        ['吉拿棒','Churros','🥨','甜点','长条面团炸至香脆，蘸浓巧克力，是快乐的甜点时刻。']
+      ]},
+      {country:'德国',code:'DE',foods:[
+        ['德式烤猪肘','Schweinshaxe','🍖','正餐','猪肘烤出焦脆外皮，内里丰腴多汁，适合慢慢分享。'],
+        ['德国酸菜炖肉','Sauerkraut with pork','🥘','正餐','酸菜与猪肉相伴，酸香化开油脂，滋味扎实。'],
+        ['德国咖喱香肠','Currywurst','🌭','小吃','香肠浇上番茄咖喱酱，配薯条就是经典街头搭配。'],
+        ['巴伐利亚白香肠','Weisswurst','🌭','正餐','细腻白香肠配甜芥末和碱水面包，风味柔和。'],
+        ['德式土豆饼','Kartoffelpuffer','🥔','小吃','土豆丝煎成小饼，边缘焦脆，可配苹果酱一起吃。']
+      ]},
+      {country:'英国',code:'GB',foods:[
+        ['炸鱼薯条','Fish and chips','🐟','正餐','酥炸鱼肉配粗薯条，挤点柠檬或加些麦芽醋更有滋味。'],
+        ['牧羊人派','Shepherds pie','🥧','正餐','羊肉馅盖上绵密土豆泥，烤到表面微焦，温暖又饱足。'],
+        ['英式早餐','Full English breakfast','🍳','正餐','鸡蛋、香肠、焗豆等丰富配料，用一盘开启饱满的一天。'],
+        ['威灵顿牛排','Beef Wellington','🥩','正餐','牛肉与蘑菇馅包进酥皮烤制，切开便是丰盛的仪式感。'],
+        ['康沃尔肉馅饼','Cornish pasty','🥟','正餐','半月形酥皮包入牛肉与蔬菜，便携也扎实。']
+      ]},
+      {country:'美国',code:'US',foods:[
+        ['美式汉堡','Hamburger','🍔','正餐','煎烤肉饼夹入面包，搭配奶酪、蔬菜与酱汁。'],
+        ['得州烟熏牛胸肉','Texas brisket','🥩','正餐','牛胸肉低温慢熏，烟香与柔嫩肉质是等待的回报。'],
+        ['新奥尔良秋葵浓汤','Gumbo','🍲','正餐','肉或海鲜与蔬菜煮成浓汤，配米饭呈现路易斯安那风味。'],
+        ['新英格兰蛤蜊浓汤','Clam chowder','🥣','正餐','蛤蜊、土豆与奶香汤底，浓郁里带着海鲜鲜味。'],
+        ['美式苹果派','Apple pie','🥧','甜点','苹果与肉桂藏进酥皮，烤出熟悉又安心的甜香。']
+      ]},
+      {country:'墨西哥',code:'MX',foods:[
+        ['墨西哥塔可','Tacos','🌮','正餐','小张玉米饼托住肉、洋葱等配料，一口一份热烈。'],
+        ['墨西哥酱烤卷饼','Enchiladas','🌯','正餐','玉米饼卷入馅料，浇上酱汁烘烤，香浓而有层次。'],
+        ['墨西哥玉米粽','Tamales','🫔','正餐','玉米面团包入馅料，用玉米叶等包裹蒸熟，柔软喷香。'],
+        ['莫莱酱鸡','Pollo con mole','🍗','正餐','鸡肉搭配香料与辣椒等制成的莫莱酱，风味复杂醇厚。'],
+        ['墨西哥奶酪饼','Quesadilla','🧀','小吃','饼皮裹住融化的奶酪，煎出轻脆口感，趁热最好。']
+      ]},
+      {country:'巴西',code:'BR',foods:[
+        ['巴西黑豆炖肉','Feijoada','🥘','正餐','黑豆与猪肉慢慢炖煮，配米饭与橙片，丰盛而浓香。'],
+        ['巴西烤肉','Churrasco','🥩','正餐','大块肉在火上烤香，切下鲜嫩肉片，感受直接的满足。'],
+        ['巴西奶酪面包','Pao de queijo','🧀','小吃','木薯淀粉与奶酪烤成小圆球，外层微脆，内里弹糯。'],
+        ['巴西海鲜炖汤','Moqueca','🍲','正餐','鱼鲜与番茄、香草等炖煮，不同地区各有自己的浓香。'],
+        ['巴西炸鸡肉包','Coxinha','🥟','小吃','水滴形面团包入鸡肉丝，炸出金黄薄壳，咸香适口。']
+      ]},
+      {country:'摩洛哥',code:'MA',foods:[
+        ['摩洛哥塔吉锅','Tagine','🥘','正餐','肉与蔬菜、香料在陶锅中慢炖，打开锅盖便香气四溢。'],
+        ['古斯古斯','Couscous','🍚','正餐','细小麦粉颗粒蒸松，搭配蔬菜或炖肉，吸足汤汁。'],
+        ['哈里拉汤','Harira','🍲','正餐','番茄、豆类与香料等炖成浓汤，酸香温暖。'],
+        ['摩洛哥馅饼','Pastilla','🥧','正餐','薄酥皮裹住禽肉等馅料，甜咸交织，香料气息细致。'],
+        ['摩洛哥千孔饼','Baghrir','🥞','甜点','布满小孔的软薄饼，淋上蜂蜜与黄油，吸满甜蜜。']
+      ]}
+    ];
+    const FOODS = CUISINES.flatMap(c => c.foods.map((f,i) => ({id:c.code+'-'+i,country:c.country,code:c.code,name:f[0],english:f[1],emoji:f[2],category:f[3],description:f[4]})));
+    const $ = id => document.getElementById(id);
+    const COLORS = ['#e6edc9','#f2d6bd','#e1e9df','#f2e8cb','#d7e5d4','#ead4c4','#dfe8c9','#f5dfb8','#d9e7df','#efd9c8','#e6e8d0','#eddfc0'];
+    const STORAGE_KEY = 'shiyu-food-history-v1';
+    const state = {pool:FOODS.slice(),round:[],spinning:false,selected:null,lastId:null,history:[],expanded:false,hasSpun:false};
+    const ctx = $('wheel').getContext('2d');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let toastTimer;
+
+    function randomInt(max) {
+      if (!Number.isInteger(max) || max < 1) throw new RangeError('候选数量必须大于零');
+      if (globalThis.crypto && typeof globalThis.crypto.getRandomValues === 'function') {
+        const buffer = new Uint32Array(1), limit = Math.floor(4294967296 / max) * max;
+        do { globalThis.crypto.getRandomValues(buffer); } while (buffer[0] >= limit);
+        return buffer[0] % max;
+      }
+      return Math.floor(Math.random() * max);
+    }
+    function sample(list, count) {
+      const copy = list.slice();
+      for (let i = copy.length - 1; i > 0; i--) { const j = randomInt(i + 1); [copy[i],copy[j]] = [copy[j],copy[i]]; }
+      return copy.slice(0,count);
+    }
+    function eligibleFoods() {
+      if (!$('no-repeat').checked || state.pool.length < 2) return state.pool.slice();
+      return state.pool.filter(f => f.id !== state.lastId);
+    }
+    function drawWheel() {
+      const size = 1000, cx = size/2, r = 497, n = state.round.length;
+      ctx.clearRect(0,0,size,size);
+      if (!n) { ctx.fillStyle='#edf0e1';ctx.beginPath();ctx.arc(cx,cx,r,0,Math.PI*2);ctx.fill();return; }
+      const step = Math.PI*2/n;
+      for (let i=0;i<n;i++) {
+        const mid = -Math.PI/2 + i*step;
+        ctx.beginPath();ctx.moveTo(cx,cx);ctx.arc(cx,cx,r,mid-step/2,mid+step/2);ctx.closePath();
+        ctx.fillStyle=COLORS[i%COLORS.length];ctx.fill();ctx.strokeStyle='#fffdf7';ctx.lineWidth=3;ctx.stroke();
+        ctx.save();ctx.translate(cx,cx);ctx.rotate(mid);ctx.translate(r*.69,0);ctx.rotate(Math.PI/2);
+        const food=state.round[i];const title=food.name.length>7?food.name.slice(0,6)+'…':food.name;
+        ctx.fillStyle='#304c3c';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='600 30px "Microsoft YaHei", sans-serif';ctx.fillText(title,0,-13,205);
+        ctx.font='22px "Microsoft YaHei", sans-serif';ctx.fillStyle='#6f7e61';ctx.fillText(food.country,0,27,185);ctx.restore();
+      }
+    }
+    function prepareRound() {
+      state.round = sample(eligibleFoods(),12);
+      $('wheel').style.transition='none';$('wheel').style.transform='rotate(0deg)';
+      drawWheel();
+      $('candidate-list').textContent=state.round.map(f=>f.name+'（'+f.country+'）').join(' · ');
+      $('wheel-caption').textContent=state.pool.length ? '当前 '+state.pool.length+' 道美食可选 · 本轮随机上桌 '+state.round.length+' 道' : '这个组合还没有候选美食';
+      $('wheel').setAttribute('aria-label',state.round.length?'本轮'+state.round.length+'道候选美食，文字名单见下方详情':'当前筛选没有候选美食');
+      $('wheel-empty').hidden=state.round.length>0;
+      $('spin-note').textContent=state.pool.length===1?'当前只有一道美食，连续不重复将暂时停用。':'每轮重新随机上桌，发现不同的世界风味。';
+      updateDisabled();
+    }
+    function updateDisabled() {
+      for(const id of ['country','category','no-repeat','reset','shuffle']) $(id).disabled=state.spinning;
+      $('spin').disabled=state.spinning||!state.round.length;
+      $('center-spin').disabled=state.spinning||!state.round.length;
+      $('decide').disabled=state.spinning;
+      $('result-card').setAttribute('aria-busy',String(state.spinning));
+      $('spin').classList.toggle('loading-label',state.spinning);
+      $('spin').querySelector('span').textContent=state.spinning?'美味正在赶来…':'转一转，决定这一餐';
+    }
+    function resetResult() {
+      state.selected=null;
+      $('idle-art').hidden=false;$('result-emoji').hidden=true;$('result-tags').hidden=true;$('decide').hidden=true;$('idle-note').hidden=false;
+      $('result-eyebrow').textContent='YOUR NEXT DELICIOUS STOP';$('result-country').textContent='一点未知，一点期待';
+      $('result-title').textContent='让世界，为你上菜。';$('result-description').textContent='不妨跳出熟悉的菜单，和一道意想不到的美味相遇。';
+      $('result-card').classList.remove('reveal');
+    }
+    function applyFilters() {
+      if(state.spinning)return;
+      state.pool=FOODS.filter(f=>($('country').value==='all'||f.code===$('country').value)&&($('category').value==='all'||f.category===$('category').value));
+      state.hasSpun=false;state.expanded=false;resetResult();prepareRound();renderAtlas();
+      $('announcement').textContent='筛选完成，当前有'+state.pool.length+'道候选美食。';
+    }
+    function showResult(food,fromHistory=false) {
+      state.selected=food;
+      $('idle-art').hidden=true;$('result-emoji').hidden=false;$('result-emoji').textContent=food.emoji;
+      $('result-country').replaceChildren();const code=document.createElement('span');code.className='country-code';code.textContent=food.code;
+      $('result-country').append(code,document.createTextNode(food.country+' · '+food.english));
+      $('result-title').textContent=food.name;$('result-description').textContent=food.description;
+      $('result-eyebrow').textContent=fromHistory?'A DELICIOUS LITTLE MEMORY':'TODAY’S DELICIOUS PICK';
+      $('result-tags').replaceChildren();for(const text of [food.category,food.country+'风味']){const tag=document.createElement('span');tag.className='tag';tag.textContent=text;$('result-tags').append(tag);}
+      $('result-tags').hidden=false;$('idle-note').hidden=true;$('decide').hidden=false;$('decide').disabled=false;$('decide').classList.remove('is-decided');$('decide').querySelector('span').textContent='就吃这道';
+      $('result-card').classList.remove('reveal');void $('result-card').offsetWidth;$('result-card').classList.add('reveal');
+      $('announcement').textContent=(fromHistory?'查看历史食遇：':'这次抽中了：')+food.country+'的'+food.name+'。'+food.description;
+    }
+    function celebrate() {
+      if(reducedMotion.matches)return;
+      for(let i=0;i<16;i++){
+        const piece=document.createElement('span');piece.className='confetti';piece.style.left=(15+Math.random()*70)+'%';piece.style.background=COLORS[i%COLORS.length];
+        piece.style.setProperty('--x',(Math.random()-.5)*170+'px');piece.style.setProperty('--y',(80+Math.random()*130)+'px');piece.style.setProperty('--r',(Math.random()*540)+'deg');
+        $('result-card').append(piece);setTimeout(()=>piece.remove(),1200);
+      }
+    }
+    async function spin() {
+      if(state.spinning||!state.pool.length)return;
+      if(state.hasSpun)prepareRound();
+      if(!state.round.length)return;
+      const index=randomInt(state.round.length), food=state.round[index];
+      const step=360/state.round.length;
+      const jitter=(randomInt(1000)/1000-.5)*step*.45;
+      const angle=360*6+((360-index*step+jitter)%360+360)%360;
+      const duration=reducedMotion.matches?380:4200;
+      state.spinning=true;updateDisabled();$('result-eyebrow').textContent='SOMETHING DELICIOUS IS COMING';$('announcement').textContent='转盘正在转动，请稍候。';
+      void $('wheel').offsetWidth;
+      await new Promise(resolve=>{
+        let finished=false;
+        const finish=()=>{if(finished)return;finished=true;clearTimeout(timer);$('wheel').removeEventListener('transitionend',onEnd);resolve();};
+        const onEnd=event=>{if(event.propertyName==='transform')finish();};
+        const timer=setTimeout(finish,duration+200);
+        $('wheel').addEventListener('transitionend',onEnd);
+        $('wheel').style.transition='transform '+duration+'ms cubic-bezier(.14,.72,.13,1)';$('wheel').style.transform='rotate('+angle+'deg)';
+      });
+      state.spinning=false;state.hasSpun=true;state.lastId=food.id;updateDisabled();showResult(food);celebrate();
+      state.history.unshift({id:food.id,at:Date.now()});state.history=state.history.slice(0,6);saveHistory();renderHistory();
+    }
+    function saveHistory(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state.history));}catch{/* 隐私模式或本地文件限制不影响转盘。 */}}
+    function loadHistory(){try{const data=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');if(Array.isArray(data))state.history=data.filter(x=>x&&FOODS.some(f=>f.id===x.id)&&Number.isFinite(x.at)).slice(0,6);}catch{state.history=[];}state.lastId=state.history[0]?.id||null;}
+    function renderHistory(){
+      $('history-list').replaceChildren();$('clear-history').hidden=!state.history.length;
+      if(!state.history.length){const empty=document.createElement('span');empty.className='empty-history';empty.textContent='转动第一圈，留下一点美味的足迹。';$('history-list').append(empty);return;}
+      for(const entry of state.history){const food=FOODS.find(f=>f.id===entry.id);const btn=document.createElement('button');btn.className='history-chip';btn.textContent=food.emoji+' '+food.name;btn.title='查看 '+food.country+' · '+food.name;btn.addEventListener('click',()=>{if(state.spinning){toast('转盘正在转动，稍等一下就好。');return;}showResult(food,true);});$('history-list').append(btn);}
+    }
+    function renderAtlas(){
+      const keyword=$('search').value.trim().toLocaleLowerCase();
+      const matched=state.pool.filter(f=>[f.name,f.english,f.country,f.category].some(s=>s.toLocaleLowerCase().includes(keyword)));
+      const displayed=state.expanded||keyword?matched:matched.slice(0,12);
+      $('food-grid').replaceChildren();
+      for(const food of displayed){const card=document.createElement('article');card.className='food-card';const emoji=document.createElement('span');emoji.className='food-emoji';emoji.setAttribute('aria-hidden','true');emoji.style.setProperty('--tile',COLORS[CUISINES.findIndex(c=>c.code===food.code)%COLORS.length]+'70');emoji.textContent=food.emoji;const body=document.createElement('div');const title=document.createElement('h3');title.textContent=food.name;const meta=document.createElement('p');meta.append(document.createTextNode(food.country));const code=document.createElement('span');code.className='country-mini';code.textContent=food.code;const type=document.createElement('span');type.className='card-type';type.textContent='· '+food.category;meta.append(code,type);body.append(title,meta);card.append(emoji,body);card.title=food.english+'：'+food.description;$('food-grid').append(card);}
+      $('atlas-count').textContent=matched.length+' DISHES';$('atlas-empty').hidden=matched.length>0;
+      $('atlas-subtitle').textContent=state.pool.length===FOODS.length&&!keyword?'100 道经典美食，20 个国家。下一道想吃的，就在这里。':'已显示 '+matched.length+' 道美食 · 上方偏好同时影响转盘与图鉴';
+      $('more').hidden=matched.length<=12||!!keyword;
+      $('more').firstChild.textContent=state.expanded?'收起美食图鉴 ':'展开全部 '+matched.length+' 道美食 ';
+      $('more').setAttribute('aria-expanded',String(state.expanded));
+    }
+    function toast(message){$('toast').textContent=message;$('toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('visible'),2800);}
+
+    for(const c of CUISINES){const option=document.createElement('option');option.value=c.code;option.textContent=c.country+' · '+c.foods.length+' 道';$('country').append(option);}
+    $('spin').addEventListener('click',spin);$('center-spin').addEventListener('click',spin);
+    $('shuffle').addEventListener('click',()=>{if(state.spinning)return;prepareRound();state.hasSpun=false;toast('新的一桌已备好，看看这次想吃什么。');});
+    $('country').addEventListener('change',applyFilters);$('category').addEventListener('change',applyFilters);
+    $('no-repeat').addEventListener('change',()=>{if(state.spinning)return;prepareRound();state.hasSpun=false;});
+    $('reset').addEventListener('click',()=>{if(state.spinning)return;$('country').value='all';$('category').value='all';$('no-repeat').checked=true;$('search').value='';applyFilters();toast('已重置偏好，世界美食重新上桌。');});
+    $('search').addEventListener('input',renderAtlas);
+    $('more').addEventListener('click',()=>{state.expanded=!state.expanded;renderAtlas();if(!state.expanded)$('atlas').scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth'});});
+    $('nav-atlas').addEventListener('click',()=>{state.expanded=true;renderAtlas();$('nav-atlas').classList.add('active');$('nav-wheel').classList.remove('active');});
+    $('nav-wheel').addEventListener('click',()=>{$('nav-wheel').classList.add('active');$('nav-atlas').classList.remove('active');});
+    $('decide').addEventListener('click',()=>{if(!state.selected||state.spinning)return;$('decide').classList.add('is-decided');$('decide').querySelector('span').textContent='今天就吃它';toast('决定啦，今天吃'+state.selected.name+'。好好享受这一餐！');});
+    $('clear-history').addEventListener('click',()=>{state.history=[];saveHistory();renderHistory();toast('已清空抽取记录。');});
+    loadHistory();prepareRound();renderHistory();renderAtlas();
+  </script>
+</body>
+</html>
